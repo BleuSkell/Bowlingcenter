@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('lane_id')->constrained('lanes');
+            $table->integer('adult_count');
+            $table->integer('child_count');
+            $table->date('date');
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->decimal('price', 8, 2);
+            $table->string('status', 50);
+            $table->boolean('is_active');
+            $table->string('comment', 255)->nullable();
             $table->timestamps();
         });
     }

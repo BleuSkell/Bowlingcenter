@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('scores', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('reservation_id')->constrained('reservations');
+            $table->string('person', 150);
+            $table->integer('score');
+            $table->boolean('is_active');
+            $table->string('comment', 255)->nullable();
             $table->timestamps();
         });
     }

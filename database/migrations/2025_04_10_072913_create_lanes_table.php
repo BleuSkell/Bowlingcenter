@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('lanes', function (Blueprint $table) {
             $table->id();
+            $table->integer('lane_number');
+            $table->boolean('lane_type');
+            $table->boolean('is_available');
+            $table->boolean('is_active');
+            $table->string('comment', 255)->nullable();
             $table->timestamps();
         });
     }
