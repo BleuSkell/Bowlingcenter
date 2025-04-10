@@ -25,6 +25,23 @@
                                     </p>
                                 </div>
                             </div>
+                            <div class="shrink-0 sm:flex sm:flex-col sm:items-end mt-4 sm:mt-0">
+                                <div class="grid sm:justify-center sm:content-center">
+                                    <div class="grid sm:justify-self-center">
+                                        <a href="{{ route('scores.edit', ['id' => $score->id]) }}" class="text-green-900 font-semibold">Bewerk</a>
+                                    </div>
+                                    
+                                    <form action="{{ route('scores.destroy', ['id' => $score->id]) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <div class="grid justify-self-start sm:justify-self-center">
+                                            <input type="submit" value="Verwijder" class="text-red-600 font-semibold"/>
+                                        </div>
+                                        <input type="checkbox" name="checked" id="checked">
+                                        <label for="checkbox" class="text-black">Ik bevestig dat ik dit account wil verwijderen</label>
+                                    </form>
+                                </div>
+                            </div>
                         </li>
                     @endforeach
                 </ul>
