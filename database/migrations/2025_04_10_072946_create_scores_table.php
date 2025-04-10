@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('reservation_id')->constrained('reservations');
             $table->string('person', 150);
             $table->integer('score');
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(0);
             $table->string('comment', 255)->nullable();
             $table->timestamps();
         });

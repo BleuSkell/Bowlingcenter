@@ -12,7 +12,7 @@ class ScoreController extends Controller
     {
         $reservations = Reservation::all();
 
-        return view('reservations.index', compact('reservations'));
+        return view('scores.index', compact('reservations'));
     }
 
     public function show($id)
@@ -70,7 +70,7 @@ class ScoreController extends Controller
         return redirect()->route('scores.show', ['id' => $score->reservation_id])->with('success', 'Score updated successfully.');
     }
 
-    public function destroy()
+    public function destroy($id)
     {
         $score = Score::findOrFail($id);
         $reservationId = $score->reservation_id;
