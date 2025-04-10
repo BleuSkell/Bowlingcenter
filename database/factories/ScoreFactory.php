@@ -19,7 +19,7 @@ class ScoreFactory extends Factory
     {
         return [
             'reservation_id' => Reservation::factory(),
-            'person' => $this->faker->randomName(),
+            'person' => $this->faker->firstName(),
             'score' => $this->faker->numberBetween(1, 300),
             'is_active' => $this->faker->boolean(),
             'comment' => $this->faker->optional()->sentence(),
