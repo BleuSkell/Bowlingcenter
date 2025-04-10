@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use App\Models\Lane;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB; 
 class ReservationController extends Controller
 {
     public function index()
