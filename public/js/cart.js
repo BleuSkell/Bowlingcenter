@@ -182,10 +182,11 @@ function displayCartItems() {
 }
 
 // Show a notification
-function showNotification(message) {
+function showNotification(message, type = "success") {
     const notification = document.createElement("div");
-    notification.className =
-        "fixed z-50 p-4 text-white bg-green-500 rounded-lg shadow-lg top-4 right-4";
+    notification.className = `fixed z-50 p-4 text-white rounded-lg shadow-lg top-4 right-4 ${
+        type === "error" ? "bg-red-500" : "bg-green-500"
+    }`;
     notification.textContent = message;
 
     document.body.appendChild(notification);

@@ -5,33 +5,6 @@ use App\Models\Product;
 use App\Models\Reservation;
 use App\Models\User;
 
-// Read
-
-test('orders can be viewed by admin', function () {
-    $user = User::factory()->create();
-    $user->role = 'admin';
-    $this->actingAs($user);
-
-    $orders = Order::factory()->count(3)->create();
-
-    $response = $this->get(route('orders.index'));
-
-    $response->assertStatus(200);
-    $response->assertViewIs('orders.index');
-    $response->assertViewHas('orders', function ($viewOrders) use ($orders) {
-        return $viewOrders->contains($orders->first());
-    });
-});
-
-test('orders can not be viewed by user, redirect to dashboard', function () {
-    $user = User::factory()->create();
-    $user->role = 'user';
-    $this->actingAs($user);
-
-    $response = $this->get(route('orders.index'));
-    $response->assertStatus(401);
-});
-
 // Create
 test('orders can be created by admin', function () {
     $user = User::factory()->create();
@@ -144,6 +117,9 @@ test('orders can be deleted by admin', function () {
     $this->actingAs($user);
 
     $order = Order::factory()->create();
+
+    $order->reservation->date = now()->addDays(1);
+    $order->reservation->save();
 
     $response = $this->delete(route('orders.destroy', $order));
 

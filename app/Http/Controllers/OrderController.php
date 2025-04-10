@@ -14,14 +14,21 @@ class OrderController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if ($user->role !== 'admin') {
-            return response()->json(['message' => 'Unauthorized'], 401)
-                ->withHeaders(['Location' => route('dashboard')]);
-        }
 
-        $orders = Order::with('product', 'reservation')
-            ->orderBy("created_at", "desc")
-            ->get();
+        // If user is admin, show all orders
+        if ($user->role === 'admin') {
+            $orders = Order::with('product', 'reservation')
+                ->orderBy("created_at", "desc")
+                ->get();
+        } else {
+            // For regular users, show only their own orders
+            $orders = Order::with('product', 'reservation')
+                ->whereHas('reservation', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->orderBy("created_at", "desc")
+                ->get();
+        }
 
         $groupedOrders = $orders->groupBy('reservation_id');
 
@@ -69,11 +76,12 @@ class OrderController extends Controller
         ]);
 
         $product = Product::find($request->product_id);
-        if ($product->quantity < $request->quantity) {
-            return redirect()->route('orders.create')->with('error', 'Not enough quantity available');
+
+
+        if ($product->stock < $request->quantity) {
+            return redirect()->route('orders.create')->with('error', 'Not enough quantity available. Only ' . $product->stock . ' left.');
         }
 
-        $product = Product::find($request->product_id);
         $totalPrice = $product->price * $request->quantity;
 
         $order = Order::create([
@@ -83,6 +91,9 @@ class OrderController extends Controller
             'total_price' => $totalPrice,
             'status' => 'pending',
         ]);
+
+        $product->stock -= $request->quantity;
+        $product->save();
 
         return redirect()->route('orders.index')->with('success', 'Order created successfully');
     }
@@ -120,6 +131,21 @@ class OrderController extends Controller
                 ->withHeaders(['Location' => route('dashboard')]);
         }
 
+        $request->validate([
+            'product_id' => 'required',
+            'reservation_id' => 'required',
+            'quantity' => 'required',
+        ]);
+
+        $product = Product::find($request->product_id);
+
+        if ($product->stock < $request->quantity) {
+            return redirect()->route('orders.edit', $order)->with('error', 'Not enough quantity available. Only ' . $product->stock . ' left.');
+        }
+
+        $product->stock -= $request->quantity;
+        $product->save();
+
         $order->update($request->all());
         return redirect()->route('orders.index');
     }
@@ -129,6 +155,11 @@ class OrderController extends Controller
         $user = Auth::user();
         if ($user->role !== 'admin') {
             return redirect()->route('dashboard')->with('error', 'Unauthorized');
+        }
+
+        // If reservation is in the past, can't delete
+        if ($order->reservation->date < now()) {
+            return redirect()->route('orders.index')->with('error', 'Can\'t delete order for past reservation');
         }
 
         $order->delete();

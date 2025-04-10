@@ -23,6 +23,20 @@
                         </a>
                     </div>
 
+                    <div class="mb-6">
+                        <label for="reservation_id" class="block text-sm font-medium text-gray-700">Reservation</label>
+                        <select name="reservation_id" id="reservation_id"
+                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            @if (count($reservations) <= 0)
+                                <option value="">No active reservations found</option>
+                            @else
+                                @foreach ($reservations as $reservation)
+                                    <option value="{{ $reservation->id }}">{{ $reservation->id }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+
                     <div id="cart-items-container" class="mb-6">
                         <!-- Cart items will be displayed here by JavaScript -->
                     </div>
@@ -82,7 +96,7 @@
             form.appendChild(cartData);
 
             // Add reservation ID if available
-            const reservationId = '{{ request()->query('reservation_id') }}';
+            const reservationId = document.getElementById('reservation_id').value;
             if (reservationId) {
                 const reservationInput = document.createElement('input');
                 reservationInput.type = 'hidden';

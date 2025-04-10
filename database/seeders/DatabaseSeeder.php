@@ -26,7 +26,11 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => Hash::make('123123123'),
-            'role' => 'admin',
+            'role' => 'user',
+        ]);
+
+        Reservation::factory(2)->create([
+            'user_id' => 1,
         ]);
 
         Lane::factory(8)->create();

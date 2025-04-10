@@ -15,7 +15,10 @@ class CartController extends Controller
      */
     public function index()
     {
-        return view('cart.index');
+        // Reservations of the user
+        $reservations = Reservation::where('user_id', Auth::user()->id)->get();
+
+        return view('cart.index', compact('reservations'));
     }
 
     /**
@@ -49,6 +52,8 @@ class CartController extends Controller
 
             if ($activeReservation) {
                 $reservationId = $activeReservation->id;
+            } else {
+                return redirect()->route('cart.index')->with('error', 'No active reservation found. Please select a reservation.');
             }
         }
 
@@ -70,6 +75,7 @@ class CartController extends Controller
         }
 
         // Clear the cart in localStorage (this will be done by JavaScript)
+        $request->session()->forget('bowling_cart');
 
         // Redirect to success page or back to products
         return redirect()->route('extras.index')->with('success', 'Your order has been created successfully!');

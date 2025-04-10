@@ -9,6 +9,11 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6">
+                    @if (session('error'))
+                        <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     <form action="{{ route('orders.store') }}" method="POST" class="space-y-6">
                         @csrf
                         <div>
@@ -72,7 +77,8 @@
                         <div>
                             <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
                             <input type="number" name="quantity" id="quantity" min="1"
-                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                required value="{{ old('quantity') }}">
                         </div>
 
                         <div class="flex justify-end">
