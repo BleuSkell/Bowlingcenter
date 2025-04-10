@@ -17,7 +17,13 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'product_id' => Product::factory(),
+            'reservation_id' => Reservation::factory(),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'total_price' => $this->faker->randomFloat(2, 10, 100),
+            'status' => $this->faker->randomElement(['pending', 'completed', 'canceled']),
+            'is_active' => $this->faker->boolean(),
+            'comment' => $this->faker->optional()->sentence(),
         ];
     }
 }

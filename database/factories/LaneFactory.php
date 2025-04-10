@@ -17,7 +17,11 @@ class LaneFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'lane_number' => $this->faker->unique()->numberBetween(1, 8),
+            'lane_type' => $this->faker->boolean(),
+            'is_available' => $this->faker->boolean(),
+            'is_active' => $this->faker->boolean(),
+            'comment' => $this->faker->optional()->sentence(),
         ];
     }
 }
