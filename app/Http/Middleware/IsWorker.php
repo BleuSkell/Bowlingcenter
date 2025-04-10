@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class IsWorker
 {
@@ -17,7 +18,7 @@ class IsWorker
     {
         $user = Auth::user();
 
-        if ($user && $user->role === 'worker' || $user->role === 'admin') {
+        if ($user && $user->role = 'worker' || $user->role = 'admin') {
             return $next($request);
         }
 
