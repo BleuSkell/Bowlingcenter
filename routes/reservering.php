@@ -1,3 +1,5 @@
+routes/reservering.php
+
 <?php
 
 use Illuminate\Support\Facades\Route;
