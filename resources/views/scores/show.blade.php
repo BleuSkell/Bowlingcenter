@@ -4,7 +4,7 @@
             {{ $reservationScores->date }}
         </h2>   
 
-        @if (Auth::check() && Auth::user()->role = 'worker' || Auth::user()->role = 'admin')
+        @if (Auth::check() && Auth::user()->role === 'worker' || Auth::user()->role === 'admin')
             <a href="{{ route('scores.create', ['reservationId' => $reservationScores->id]) }}" class="text-sm text-gray-700 underline">
                 <button>
                     Voeg toe
@@ -45,7 +45,7 @@
                             <div class="shrink-0 sm:flex sm:flex-col sm:items-end mt-4 sm:mt-0">
                                 <div class="grid sm:justify-center sm:content-center">
 
-                                    @if (Auth::check() && Auth::user()->role = 'worker' || Auth::user()->role = 'admin')
+                                    @if (Auth::check() && Auth::user()->role === 'worker' || Auth::user()->role === 'admin')
                                         <div class="grid sm:justify-self-center">
                                             <a href="{{ route('scores.edit', ['id' => $score->id]) }}" class="text-green-900 font-semibold" onclick="return confirm('Weet je zeker dat je deze score wilt bewerken?')">Bewerk</a>
                                         </div>
