@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('reservation_id')->constrained('reservations');
             $table->integer('quantity');
             $table->decimal('total_price', 8, 2);
-            $table->string('status', 50);
-            $table->boolean('is_active');
+            $table->string('status', 50)->nullable();
+            $table->boolean('is_active')->default(true);
             $table->string('comment', 255)->nullable();
             $table->timestamps();
         });

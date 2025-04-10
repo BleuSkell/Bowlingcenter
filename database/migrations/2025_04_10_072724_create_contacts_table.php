@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('last_name', 100);
             $table->string('phone_number', 20);
             $table->string('email', 150);
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(true);
             $table->string('comment', 255)->nullable();
             $table->timestamps();
         });

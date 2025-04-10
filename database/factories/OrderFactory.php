@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Product;
+use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,13 +19,13 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => Product::factory(),
-            'reservation_id' => Reservation::factory(),
-            'quantity' => $this->faker->numberBetween(1, 10),
-            'total_price' => $this->faker->randomFloat(2, 10, 100),
-            'status' => $this->faker->randomElement(['pending', 'completed', 'canceled']),
-            'is_active' => $this->faker->boolean(),
-            'comment' => $this->faker->optional()->sentence(),
+            'product_id' => Product::factory()->create()->id,
+            'reservation_id' => Reservation::factory()->create()->id,
+            'quantity' => fake()->numberBetween(1, 10),
+            'total_price' => fake()->randomFloat(2, 10, 100),
+            'status' => fake()->randomElement(['pending', 'completed', 'canceled']),
+            'is_active' => fake()->boolean(),
+            'comment' => fake()->optional()->sentence(),
         ];
     }
 }

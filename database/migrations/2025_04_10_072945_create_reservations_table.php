@@ -21,8 +21,8 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->decimal('price', 8, 2);
-            $table->string('status', 50);
-            $table->boolean('is_active');
+            $table->string('status', 50)->nullable();
+            $table->boolean('is_active')->default(true);
             $table->string('comment', 255)->nullable();
             $table->timestamps();
         });

@@ -15,8 +15,8 @@ class Order extends Model
     protected $table = 'orders';
 
     protected $fillable = [
-        'user_id',
-        'lane_id',
+        'product_id',
+        'reservation_id',
         'quantity',
         'total_price',
         'status',
@@ -29,6 +29,6 @@ class Order extends Model
 
     public function product()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Product::class);
     }
 }

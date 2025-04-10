@@ -2,9 +2,75 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    //
+    public function index()
+    {
+        $user = Auth::user();
+        if ($user->role !== 'admin') {
+            return redirect()->route('dashboard')->with('error', 'Unauthorized');
+        }
+
+        // Get all orders with their products and reservation from product_id and reservation_id
+        $orders = Order::with('product', 'reservation')->orderBy("created_at", "desc")->paginate(10);
+
+        return view('orders.index', compact('orders'));
+    }
+
+    public function create()
+    {
+        $products = Product::all();
+        $reservations = Reservation::all();
+
+        return view('orders.create', compact('products', 'reservations'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required',
+            'reservation_id' => 'required',
+            'quantity' => 'required',
+        ]);
+
+        $product = Product::find($request->product_id);
+        $totalPrice = $product->price * $request->quantity;
+
+        $order = Order::create([
+            'product_id' => $product->id,
+            'reservation_id' => $request->reservation_id,
+            'quantity' => $request->quantity,
+            'total_price' => $totalPrice,
+        ]);
+
+        return redirect()->route('orders.index')->with('success', 'Order created successfully');
+    }
+
+    public function show(Order $order)
+    {
+        return view('orders.show', compact('order'));
+    }
+
+    public function edit(Order $order)
+    {
+        return view('orders.edit', compact('order'));
+    }
+
+    public function update(Request $request, Order $order)
+    {
+        $order->update($request->all());
+        return redirect()->route('orders.index');
+    }
+
+    public function destroy(Order $order)
+    {
+        $order->delete();
+        return redirect()->route('orders.index');
+    }
 }

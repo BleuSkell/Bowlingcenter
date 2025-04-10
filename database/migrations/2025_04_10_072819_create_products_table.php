@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('stock');
             $table->string('image_url', 255)->nullable();
             $table->integer('max_quantity');
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(true);
             $table->string('comment', 255)->nullable();
             $table->timestamps();
         });

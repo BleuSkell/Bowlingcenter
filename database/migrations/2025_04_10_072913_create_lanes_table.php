@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->integer('lane_number');
             $table->boolean('lane_type');
-            $table->boolean('is_available');
-            $table->boolean('is_active');
+            $table->boolean('is_available')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->string('comment', 255)->nullable();
             $table->timestamps();
         });

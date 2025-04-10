@@ -16,12 +16,14 @@ class LaneFactory extends Factory
      */
     public function definition(): array
     {
+        static $laneNumber = 1;
+
         return [
-            'lane_number' => $this->faker->unique()->numberBetween(1, 8),
-            'lane_type' => $this->faker->boolean(),
-            'is_available' => $this->faker->boolean(),
-            'is_active' => $this->faker->boolean(),
-            'comment' => $this->faker->optional()->sentence(),
+            'lane_number' => $laneNumber++,
+            'lane_type' => fake()->boolean(),
+            'is_available' => fake()->boolean(),
+            'is_active' => fake()->boolean(),
+            'comment' => fake()->optional()->sentence(),
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,11 +18,11 @@ class ScoreFactory extends Factory
     public function definition(): array
     {
         return [
-            'reservation_id' => Reservation::factory(),
-            'person' => $this->faker->randomName(),
-            'score' => $this->faker->numberBetween(1, 300),
-            'is_active' => $this->faker->boolean(),
-            'comment' => $this->faker->optional()->sentence(),
+            'reservation_id' => Reservation::factory()->create()->id,
+            'person' => fake()->name(),
+            'score' => fake()->numberBetween(1, 300),
+            'is_active' => fake()->boolean(),
+            'comment' => fake()->optional()->sentence(),
         ];
     }
 }
