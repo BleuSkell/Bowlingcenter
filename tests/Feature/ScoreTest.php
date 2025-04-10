@@ -43,7 +43,7 @@ test('een reservation toont zijn gekoppelde scores op de show pagina', function 
     });
 
     // Optioneel: controleer dat score-gegevens zichtbaar zijn in HTML
-    $response->assertSeeText($scores->first()->comment ?? ''); // of andere zichtbare velden
+    $response->assertSeeText($scores->first()->comment ?? '');  // Controleer of het comment zichtbaar is
 });
 
 // create
