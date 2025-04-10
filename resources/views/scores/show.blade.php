@@ -28,10 +28,12 @@
                             <div class="shrink-0 sm:flex sm:flex-col sm:items-end mt-4 sm:mt-0">
                                 <div class="grid sm:justify-center sm:content-center">
                                     <div class="grid sm:justify-self-center">
-                                        <a href="{{ route('scores.edit', ['id' => $score->id]) }}" class="text-green-900 font-semibold">Bewerk</a>
+                                        <a href="{{ route('scores.edit', ['id' => $score->id]) }}" class="text-green-900 font-semibold" onclick="return confirm('Weet je zeker dat je deze score wilt bewerken?')">Bewerk</a>
                                     </div>
                                     
-                                    <form action="{{ route('scores.destroy', ['id' => $score->id]) }}" method="post">
+                                    <form action="{{ route('scores.destroy', ['id' => $score->id]) }}" method="post"
+                                        onsubmit="return confirm('Weet je zeker dat je deze score wilt verwijderen?')">
+                                        
                                         @csrf
                                         @method('delete')
                                         <div class="grid justify-self-start sm:justify-self-center">
