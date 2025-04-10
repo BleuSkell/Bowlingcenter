@@ -37,8 +37,6 @@
                                         <div class="grid justify-self-start sm:justify-self-center">
                                             <input type="submit" value="Verwijder" class="text-red-600 font-semibold"/>
                                         </div>
-                                        <input type="checkbox" name="checked" id="checked">
-                                        <label for="checkbox" class="text-black">Ik bevestig dat ik dit account wil verwijderen</label>
                                     </form>
                                 </div>
                             </div>
