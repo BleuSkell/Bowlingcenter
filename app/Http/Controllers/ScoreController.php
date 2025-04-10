@@ -17,28 +17,26 @@ class ScoreController extends Controller
     public function show($id)
     {
         $reservationScores = Reservation::with('score')->findOrFail($id);
-        
+
         return view('scores.show', compact('reservationScores'));
     }
 
     public function create($reservationId)
-    {
+    {   
         return view('scores.create', compact('reservationId'));
     }
 
     public function store(Request $request, $reservationId)
     {
         $request->validate([
-            'person' => 'required|integer|min:1|max:5',
-            'score' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string|max:255',
+            'person' => 'required|string',
+            'score' => 'required|integer'
         ]);
 
         Score::create([
             'reservation_id' => $reservationId,
             'person' => $request->input('person'),
-            'score' => $request->input('score'),
-            'comment' => $request->input('comment'),
+            'score' => $request->input('score')
         ]);
 
         return redirect()->route('scores.show', ['id' => $reservationId])->with('success', 'Score created successfully.');
