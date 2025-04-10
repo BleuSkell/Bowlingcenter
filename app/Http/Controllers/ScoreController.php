@@ -11,15 +11,14 @@ class ScoreController extends Controller
     public function index()
     {
         $reservations = Reservation::all();
-
         return view('scores.index', compact('reservations'));
     }
 
     public function show($id)
     {
-        $scores = Score::where('reservation_id', $id)->get();
-
-        return view('scores.show', compact('scores'));
+        $reservationScores = Reservation::with('score')->findOrFail($id);
+        
+        return view('scores.show', compact('reservationScores'));
     }
 
     public function create($reservationId)
