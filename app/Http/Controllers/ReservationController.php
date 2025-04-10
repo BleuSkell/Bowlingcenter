@@ -26,7 +26,6 @@ class ReservationController extends Controller
     {
         // Use a database transaction to handle any errors
         DB::beginTransaction();
-        
         try {
             // Validate request data
             $validated = $request->validate([
@@ -37,6 +36,7 @@ class ReservationController extends Controller
                 'status' => 'required|string',
                 'adult_count' => 'required|integer|min:1',
                 'child_count' => 'nullable|integer|min:0',
+                'is_active' => 'required|boolean',
                 'comment' => 'nullable|string|max:255',
             ]);
             
@@ -58,10 +58,10 @@ class ReservationController extends Controller
             
             // Add user_id
             $validated['user_id'] = auth()->id();
-            
+
             // Create the reservation
             Reservation::create($validated);
-            
+
             DB::commit();
             
             return redirect()->route('reservations.index')->with('success', 'Reservering aangemaakt!');
@@ -98,6 +98,7 @@ class ReservationController extends Controller
                 'lane_id' => 'required|exists:lanes,id',
                 'status' => 'required|string',
                 'comment' => 'nullable|string|max:255',
+
             ]);
             
             // Handle price calculation on the server side as well

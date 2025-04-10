@@ -22,7 +22,7 @@ return new class extends Migration
             $table->time('end_time');
             $table->decimal('price', 8, 2);
             $table->string('status', 50);
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(1);
             $table->string('comment', 255)->nullable();
             $table->timestamps();
         });

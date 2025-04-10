@@ -19,10 +19,15 @@ class Reservation extends Model
     protected $fillable = [
         'user_id',
         'lane_id',
-        'reservation_date',
+        'adult_count',
+        'child_count',
+        'date',
         'start_time',
         'end_time',
+        'price',
         'status',
+        'is_active',
+        'comment',
     ];
 
     public function user()

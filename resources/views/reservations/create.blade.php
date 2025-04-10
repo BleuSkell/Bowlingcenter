@@ -15,6 +15,7 @@
 
         <form action="{{ route('reservations.store') }}" method="POST">
             @csrf
+            @method('POST')
 
             <div class="space-y-4">
                 <!-- Lane selection -->
