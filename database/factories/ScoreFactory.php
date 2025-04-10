@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Reservation;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Score>
@@ -17,7 +18,10 @@ class ScoreFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'reservation_id' => Reservation::factory(),
+            'score' => $this->faker->numberBetween(1, 300),
+            'is_active' => $this->faker->boolean(),
+            'comment' => $this->faker->sentence(),
         ];
     }
 }
