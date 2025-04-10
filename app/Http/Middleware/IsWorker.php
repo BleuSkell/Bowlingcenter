@@ -18,7 +18,7 @@ class IsWorker
     {
         $user = Auth::user();
 
-        if ($user && $user->role = 'worker' || $user->role = 'admin') {
+        if ($user && $user->role === 'worker' || $user->role === 'admin') {
             return $next($request);
         }
 
