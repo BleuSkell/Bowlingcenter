@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description', 255)->nullable();
             $table->decimal('price', 8, 2);
             $table->integer('stock');
-            $table->string('image_url', 255)->nullable();
+            $table->string('image_url', 500)->nullable();
             $table->integer('max_quantity');
             $table->boolean('is_active')->default(true);
             $table->string('comment', 255)->nullable();

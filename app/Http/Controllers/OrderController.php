@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\IsWorker;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Reservation;
@@ -18,10 +19,26 @@ class OrderController extends Controller
                 ->withHeaders(['Location' => route('dashboard')]);
         }
 
-        // Get all orders with their products and reservation from product_id and reservation_id
-        $orders = Order::with('product', 'reservation')->orderBy("created_at", "desc")->paginate(10);
+        $orders = Order::with('product', 'reservation')
+            ->orderBy("created_at", "desc")
+            ->get();
 
-        return view('orders.index', compact('orders'));
+        $groupedOrders = $orders->groupBy('reservation_id');
+
+        $groupedOrdersArray = $groupedOrders->toArray();
+
+        $page = request()->get('page', 1);
+        $perPage = 5;
+
+        $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
+            array_slice($groupedOrdersArray, ($page - 1) * $perPage, $perPage),
+            count($groupedOrdersArray),
+            $perPage,
+            $page,
+            ['path' => request()->url()]
+        );
+
+        return view('orders.index', compact('paginator'));
     }
 
     public function create()
@@ -52,6 +69,11 @@ class OrderController extends Controller
         ]);
 
         $product = Product::find($request->product_id);
+        if ($product->quantity < $request->quantity) {
+            return redirect()->route('orders.create')->with('error', 'Not enough quantity available');
+        }
+
+        $product = Product::find($request->product_id);
         $totalPrice = $product->price * $request->quantity;
 
         $order = Order::create([
@@ -59,6 +81,7 @@ class OrderController extends Controller
             'reservation_id' => $request->reservation_id,
             'quantity' => $request->quantity,
             'total_price' => $totalPrice,
+            'status' => 'pending',
         ]);
 
         return redirect()->route('orders.index')->with('success', 'Order created successfully');
