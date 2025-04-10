@@ -15,7 +15,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            @if ($reservationScores)
+            @if ($reservationScores && $reservationScores->score->isNotEmpty())
                 <ul role="list" class="divide-y divide-gray-100">
                     @foreach ($reservationScores->score as $score)
                         <li class="flex flex-col sm:flex-row justify-between gap-x-6 p-5 bg-white rounded-md mb-5">
@@ -52,6 +52,8 @@
                         </li>
                     @endforeach
                 </ul>
+            @else
+                <h4>Er zijn op dit moment geen scores beschikbaar</h4>
             @endif
         </div>
     </div>
