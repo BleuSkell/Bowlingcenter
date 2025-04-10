@@ -3,6 +3,10 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ $reservationScores->date }}
         </h2>
+
+        <button>
+            <a href="{{ route('scores.create', ['reservationId' => $reservationScores->id]) }}" class="text-sm text-gray-700 underline">Maak nieuwe score aan</a>
+        </button>
     </x-slot>
 
     <div class="py-12">
