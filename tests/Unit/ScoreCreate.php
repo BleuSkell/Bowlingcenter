@@ -5,22 +5,22 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-test('a score can be created', function () {
-    // Arrange: Maak een score aan met de factory
+test('Een score kan worden aangemaakt', function () {
+    // Arrange: Maak een nieuwe score aan met de factory
     $score = Score::factory()->create([
         'reservation_id' => 1,
-        'person' => 'John Doe',
-        'score' => 150,
+        'person' => 'Jane Doe',
+        'score' => 200,
         'is_active' => true,
-        'comment' => 'Great game!',
+        'comment' => 'Fantastisch spel!',
     ]);
 
-    // Assert: Controleer of de score correct is opgeslagen
+    // Assert: Controleer of de score correct in de database is opgeslagen
     $this->assertDatabaseHas('scores', [
         'reservation_id' => 1,
-        'person' => 'John Doe',
-        'score' => 150,
+        'person' => 'Jane Doe',
+        'score' => 200,
         'is_active' => true,
-        'comment' => 'Great game!',
+        'comment' => 'Fantastisch spel!',
     ]);
 });
