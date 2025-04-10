@@ -14,8 +14,8 @@ class Score extends Model
     protected $table = 'scores';
 
     protected $fillable = [
-        'user_id',
-        'lane_id',
+        'reservation_id',
+        'person',
         'score',
         'comment',
     ];
