@@ -32,8 +32,9 @@ class Reservation extends Model
 
     public function lane()
     {
-        return $this->hasMany(Lane::class);
+        return $this->belongsTo(Lane::class);
     }
+
 
     public function order()
     {
