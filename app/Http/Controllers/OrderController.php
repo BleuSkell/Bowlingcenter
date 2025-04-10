@@ -14,7 +14,8 @@ class OrderController extends Controller
     {
         $user = Auth::user();
         if ($user->role !== 'admin') {
-            return redirect()->route('dashboard')->with('error', 'Unauthorized');
+            return response()->json(['message' => 'Unauthorized'], 401)
+                ->withHeaders(['Location' => route('dashboard')]);
         }
 
         // Get all orders with their products and reservation from product_id and reservation_id
@@ -25,6 +26,11 @@ class OrderController extends Controller
 
     public function create()
     {
+        $user = Auth::user();
+        if ($user->role !== 'admin') {
+            return redirect()->route('dashboard')->with('error', 'Unauthorized');
+        }
+
         $products = Product::all();
         $reservations = Reservation::all();
 
@@ -33,6 +39,12 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        $user = Auth::user();
+        if ($user->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 401)
+                ->withHeaders(['Location' => route('dashboard')]);
+        }
+
         $request->validate([
             'product_id' => 'required',
             'reservation_id' => 'required',
@@ -54,22 +66,48 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
+        $user = Auth::user();
+        if ($user->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 401)
+                ->withHeaders(['Location' => route('dashboard')]);
+        }
+
         return view('orders.show', compact('order'));
     }
 
     public function edit(Order $order)
     {
-        return view('orders.edit', compact('order'));
+        $user = Auth::user();
+        if ($user->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 401)
+                ->withHeaders(['Location' => route('dashboard')]);
+        }
+
+        $products = Product::all();
+        $reservations = Reservation::all();
+
+        return view('orders.edit', compact('order', 'products', 'reservations'));
     }
 
     public function update(Request $request, Order $order)
     {
+        $user = Auth::user();
+        if ($user->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 401)
+                ->withHeaders(['Location' => route('dashboard')]);
+        }
+
         $order->update($request->all());
         return redirect()->route('orders.index');
     }
 
     public function destroy(Order $order)
     {
+        $user = Auth::user();
+        if ($user->role !== 'admin') {
+            return redirect()->route('dashboard')->with('error', 'Unauthorized');
+        }
+
         $order->delete();
         return redirect()->route('orders.index');
     }

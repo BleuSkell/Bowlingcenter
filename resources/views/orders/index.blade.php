@@ -68,8 +68,13 @@
                                                 class="text-indigo-600 hover:text-indigo-900">View</a>
                                             <a href="{{ route('orders.edit', $order->id) }}"
                                                 class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                                            <a href="{{ route('orders.destroy', $order->id) }}"
-                                                class="text-red-600 hover:text-red-900">Delete</a>
+
+                                            <form action="{{ route('orders.destroy', $order->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="text-red-600 hover:text-red-900">Delete</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
