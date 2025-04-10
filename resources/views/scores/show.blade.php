@@ -2,11 +2,15 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ $reservationScores->date }}
-        </h2>
+        </h2>   
 
-        <button>
-            <a href="{{ route('scores.create', ['reservationId' => $reservationScores->id]) }}" class="text-sm text-gray-700 underline">Maak nieuwe score aan</a>
-        </button>
+        @if (Auth::check() && Auth::user()->role = 'worker' || Auth::user()->role = 'admin')
+            <a href="{{ route('scores.create', ['reservationId' => $reservationScores->id]) }}" class="text-sm text-gray-700 underline">
+                <button>
+                    Voeg toe
+                </button>
+            </a>
+        @endif
     </x-slot>
 
     <div class="py-12">
@@ -27,9 +31,12 @@
                             </div>
                             <div class="shrink-0 sm:flex sm:flex-col sm:items-end mt-4 sm:mt-0">
                                 <div class="grid sm:justify-center sm:content-center">
-                                    <div class="grid sm:justify-self-center">
-                                        <a href="{{ route('scores.edit', ['id' => $score->id]) }}" class="text-green-900 font-semibold" onclick="return confirm('Weet je zeker dat je deze score wilt bewerken?')">Bewerk</a>
-                                    </div>
+
+                                    @if (Auth::check() && Auth::user()->role = 'worker' || Auth::user()->role = 'admin')
+                                        <div class="grid sm:justify-self-center">
+                                            <a href="{{ route('scores.edit', ['id' => $score->id]) }}" class="text-green-900 font-semibold" onclick="return confirm('Weet je zeker dat je deze score wilt bewerken?')">Bewerk</a>
+                                        </div>
+                                    @endif
                                     
                                     <form action="{{ route('scores.destroy', ['id' => $score->id]) }}" method="post"
                                         onsubmit="return confirm('Weet je zeker dat je deze score wilt verwijderen?')">
